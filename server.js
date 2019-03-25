@@ -159,7 +159,7 @@
             if (err) {
                 return res.status(500).send(err);
             }
-            // res.send('File uploaded!');
+            res.send('File uploaded!');
             console.log('file uploaded');
         });
     }); 

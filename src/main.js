@@ -183,4 +183,3 @@ $("#dataSelect").change(function() {
     getResourceData('data/' + $("#dataSelect").val() + '.json');
     viewer.dataSources.add(dataSource);
 })
-

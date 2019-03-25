@@ -72,7 +72,7 @@
                 </td>
             </tr>
             <tr class="controlPanelRow">
-                <td><input type="checkbox" id="showData"></td>
+                <!-- <td><input type="checkbox" id="showData"></td> -->
                 <td>
                     <span> Weather Data </span>
                     <select id="dataSelect" data-bind="visible: $parent.isSelectableLayer($data), options: $parent.dataSrcs, optionsText: 'name', value: $parent.selectedDataSrc"></select>
@@ -86,7 +86,7 @@
     <div id="uploadDiv" class="controlPanelRow">
       <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
         <input type="file" name="sampleFile" class="file-upload" />
-        <input type='submit' value="Upload" click='updateDataList()' class="cesium-button" />
+        <input id='uploadBtn' type='submit' value="Upload" click='updateDataList()' class="cesium-button" />
       </form> 
     </div>
   </div>
