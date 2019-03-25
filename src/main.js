@@ -177,6 +177,7 @@ function updateDataList() {
 var dataSource = new WebGLGlobeDataSource();
 $("#dataSelect").change(function() {
 	if($("#dataSelect").val() == "None"){
+		viewer.dataSources.remove(dataSource);
         return ;
     }
 	viewer.dataSources.remove(dataSource);
