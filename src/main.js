@@ -26,17 +26,7 @@ function getResourceData(urlString){
 }
 
 getResourceData('../data/population2016.json');
-viewer.dataSources.add(dataSource);
-
-// Get data file list from backend
-$.ajax({
-    url: 'dataList',
-    dataType: 'json'
-  }).done(function(data) {
-    console.log(data);
-  }).fail(function() {
-    alert('Faild to retrieve data');
-});
+//viewer.dataSources.add(dataSource);
 
 var baseLayers = [];
 var imageryLayers = viewer.imageryLayers;
@@ -95,7 +85,7 @@ function addBaseLayerOption(name, imageryProvider,dataSource) {
     }
     layer.name = name;
     baseLayers.push(layer);
-    console.log(baseLayers);
+    // console.log(baseLayers);
 }
 
 function addAdditionalLayerOption(name, imageryProvider, alpha, show) {
@@ -114,9 +104,83 @@ setupLayers();
 var gridImageryProvider = new Cesium.GridImageryProvider();
 var gridLayer = imageryLayers.addImageryProvider(gridImageryProvider);
 gridLayer.show = false;
-// gridLayer.alpha = 0.1;
+gridLayer.alpha = $('#gridAlpha').val();
+$('#showGrid').change(function(){
+    gridLayer.show = this.checked;
+});
+$('#gridAlpha').on('input', function() {
+	gridLayer.alpha = $('#gridAlpha').val();
+})
 
 var tileImageryProvider = new Cesium.TileCoordinatesImageryProvider();
 var tileLayer = imageryLayers.addImageryProvider(tileImageryProvider);
-// tileLayer.show = false;
-// tileLayer.alpha = 0.1;
+tileLayer.show = false;
+tileLayer.alpha = $('#tileAlpha').val();
+$('#showTile').change(function(){
+    tileLayer.show = this.checked;
+});
+$('#tileAlpha').on('input', function() {
+	tileLayer.alpha = $('#tileAlpha').val();
+})
+
+var radarImageryProvider = new Cesium.TileCoordinatesImageryProvider();
+var tileLayer = imageryLayers.addImageryProvider(tileImageryProvider);
+tileLayer.show = false;
+tileLayer.alpha = $('#tileAlpha').val();
+$('#showTile').change(function(){
+    tileLayer.show = this.checked;
+});
+$('#tileAlpha').on('input', function() {
+	tileLayer.alpha = $('#tileAlpha').val();
+})
+
+var radarImageryProvider = new Cesium.WebMapServiceImageryProvider({
+    url : 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi?',
+    layers : 'nexrad-n0r',
+    credit : 'Radar data courtesy Iowa Environmental Mesonet',
+    parameters : {
+        transparent : 'true',
+        format : 'image/png'
+    }
+});
+var radarLayer = imageryLayers.addImageryProvider(radarImageryProvider);
+radarLayer.show = false;
+radarLayer.alpha = $('#radarAlpha').val();
+$('#showRadar').change(function(){
+    radarLayer.show = this.checked;
+});
+$('#radarAlpha').on('input', function() {
+	radarLayer.alpha = $('#radarAlpha').val();
+})
+
+
+// Get data file list from backend
+updateDataList();
+
+function updateDataList() {
+	$.ajax({
+	    url: 'dataList',
+	    dataType: 'json'
+	  }).done(function(data) {
+	    $("#dataSelect").empty();
+		$("#dataSelect").append(new Option('None', 'None'));
+	    for (var d in data) {
+	    	var optionName = data[d].replace('.json', '');
+	    	var o = new Option(optionName, optionName);
+	    	$("#dataSelect").append(o);
+    	}
+	  }).fail(function() {
+	    alert('Faild to retrieve data');
+	});
+}
+
+var dataSource = new WebGLGlobeDataSource();
+$("#dataSelect").change(function() {
+	if($("#dataSelect").val() == "None"){
+        return ;
+    }
+	viewer.dataSources.remove(dataSource);
+    getResourceData('data/' + $("#dataSelect").val() + '.json');
+    viewer.dataSources.add(dataSource);
+})
+
