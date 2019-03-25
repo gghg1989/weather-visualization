@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Use correct character set. -->
+	<meta charset="utf-8">
+	<!-- Tell IE to use the latest, best version (or Chrome Frame if pre-IE11). -->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<!-- Make the application on mobile support apple mobile application. -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <script src="https://cesiumjs.org/releases/1.53/Build/Cesium/Cesium.js"></script>
+  <!-- <script src="Source/Sandcastle-header.js"></script> -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <link href="https://cesiumjs.org/releases/1.53/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link href="style/style.css" rel="stylesheet">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+  <link rel="manifest" href="icons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>3D Weather Simulation System</title>
+</head>
+<body>
+
+  <div id="cesiumContainer" class="fullSize"></div>
+  <div id="loadingOverlay"><h1>Loading...</h1></div>
+
+  <div class="controlPanel">
+    <table>
+        <tbody>
+            <tr class="controlPanelRow">
+                <td><input type="checkbox" data-bind="checked: show"></td>
+                <td> Grid </td>
+                <td>
+                    <input type="range" min="0" max="1" step="0.01" value="1">
+                </td>
+            </tr>
+            <tr class="controlPanelRow">
+                <td><input type="checkbox" data-bind="checked: show"></td>
+                <td> Tile Coordinates </td>
+                <td>
+                    <input type="range" min="0" max="1" step="0.01" value="1">
+                </td>
+            </tr>
+            <tr class="controlPanelRow">
+                <td><input type="checkbox" data-bind="checked: show"></td>
+                <td>
+                    <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
+                    <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.dataSrcs, optionsText: 'name', value: $parent.selectedDataSrc"></select>
+                </td>
+                <td>
+                    <input type="range" min="0" max="1" step="0.01" value="1">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="uploadDiv" class="controlPanelRow">
+      <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
+        <input type="file" name="sampleFile" class="file-upload" />
+        <input type='submit' value="Upload" class="cesium-button" />
+      </form> 
+    </div>
+  </div>
+
+  <script src="src/WebGLGlobeDataSource.js"></script>
+  <script src="src/main.js"></script>
+
+</body>
+</html>
