@@ -5,7 +5,11 @@ This Web-based 3D Earth Weather Simulation System will use National Weather Serv
 ## Deployment
 ```sh
 docker stop PREVIOUS-CONTAINER
-docker system prune -a
+docker rm CONTAINER-NAME
 docker build -t IMAGE-NAME .
 docker run --name CONTAINER-NAME -p 80:8080 -d IMAGE-NAME
+```
+Clean images
+```sh
+docker system prune -a
 ```
